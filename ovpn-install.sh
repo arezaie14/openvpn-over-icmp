@@ -3,8 +3,9 @@ group_name="nogroup"
 port=1194
 firewall="iptables"
 
-ip=$1
-protocol=$2
+ip="{OVPN_IP}"
+protocol="{PROTOCOL}"
+
 
 
 if [[ ! -e /dev/net/tun ]] || ! ( exec 7<>/dev/net/tun ) 2>/dev/null; then
