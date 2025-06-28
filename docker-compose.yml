@@ -12,5 +12,8 @@ services:
     devices:
       - /dev/net/tun
     restart: unless-stopped
+    ports:
+      - "1194:1194/udp"
+      - "1194:1194/tcp"
     volumes:
       - ./data:/etc/openvpn
