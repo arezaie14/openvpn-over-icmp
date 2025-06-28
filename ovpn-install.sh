@@ -113,15 +113,7 @@ crl-verify crl.pem" >> /etc/openvpn/server/server.conf
 	# Enable without waiting for a reboot or service restart
 	echo 1 > /proc/sys/net/ipv4/ip_forward
 
-	# Create a service to set up persistent iptables rules
 	iptables_path=$(command -v iptables)
-	ip6tables_path=$(command -v ip6tables)
-	# nf_tables is not available as standard in OVZ kernels. So use iptables-legacy
-	# if we are in OVZ, with a nf_tables backend and iptables-legacy is available.
-	if [[ $(systemd-detect-virt) == "openvz" ]] && readlink -f "$(command -v iptables)" | grep -q "nft" && hash iptables-legacy 2>/dev/null; then
-		iptables_path=$(command -v iptables-legacy)
-		ip6tables_path=$(command -v ip6tables-legacy)
-	fi
 
 	echo "[Unit]
 Before=network.target
