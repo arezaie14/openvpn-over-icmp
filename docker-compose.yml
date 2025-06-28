@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  openvpn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        IP_V4: 1.2.3.4
+        PROTOCOL: "udp"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: unless-stopped
+    volumes:
+      - ./data:/etc/openvpn
