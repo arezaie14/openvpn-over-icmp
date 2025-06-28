@@ -15,6 +15,7 @@ TUN needs to be enabled before running this installer."
 fi
 
 new_client () {
+	mkdir -p /etc/openvpn/confs
 	{
 	cat /etc/openvpn/server/client-common.txt
 	echo "<ca>"
@@ -29,7 +30,7 @@ new_client () {
 	echo "<tls-crypt>"
 	sed -ne '/BEGIN OpenVPN Static key/,$ p' /etc/openvpn/server/tc.key
 	echo "</tls-crypt>"
-	} > ~/"$client".ovpn
+	} > /etc/openvpn/confs/"$client".ovpn
 }
 
 if [[ ! -e /etc/openvpn/server/server.conf ]]; then
