@@ -1,0 +1,38 @@
+BasicAuth {{PROXY_USER}} {{PROXY_PASS}}
+Port 8888
+BindSame yes
+Timeout 600
+DefaultErrorFile "@pkgdatadir@/default.html"
+StatFile "@pkgdatadir@/stats.html"
+LogLevel Info
+MaxClients 100
+ViaProxyName "tinyproxy"
+#
+# Upstream:
+#
+# Turns on upstream proxy support.
+#
+# The upstream rules allow you to selectively route upstream connections
+# based on the host/domain of the site being accessed.
+#
+# Syntax: upstream type (user:pass@)ip:port ("domain")
+# Or:     upstream none "domain"
+# The parts in parens are optional.
+# Possible types are http, socks4, socks5, none
+#
+# For example:
+#  # connection to test domain goes through testproxy
+#  upstream http testproxy:8008 ".test.domain.invalid"
+# upstream socks5 socks:8596
+#  # upstream proxy using basic authentication
+#  upstream http user:pass@testproxy:8008 ".test.domain.invalid"
+#
+#  # no upstream proxy for internal websites and unqualified hosts
+#  upstream none ".internal.example.com"
+#  # connection to these boxes go through their DMZ firewalls
+#  upstream http cust1_firewall:8008 "testbed_for_cust1"
+#  upstream http cust2_firewall:8008 "testbed_for_cust2"
+#
+# You may also use SOCKS4/SOCKS5 upstream proxies:
+#  upstream socks4 127.0.0.1:9050
+#  upstream socks5 socksproxy:1080

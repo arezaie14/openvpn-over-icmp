@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  tinyproxy:
+    env_file:
+      - ./.env
+    image: vimagick/tinyproxy
+    build:
+      context: ./tinyproxy
+    ports:
+      - "${PROXY_PORT}:8888"
+    args:
+      PROXY_USER: ${PROXY_USER}
+      PROXY_PASS: ${PROXY_PASS}
+
+    restart: unless-stopped
+
   openvpn-tcp:
     env_file:
       - ./.env
