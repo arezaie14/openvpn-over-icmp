@@ -6,7 +6,7 @@ services:
       - ./.env
     build:
       dockerfile: ./ovpn/Dockerfile
-      context: ./ovpn
+      context: .
       args:
         OVPN_URL: "tcp://${TCP_SERVER_ADDRESS}"
     container_name: openvpn-tcp
@@ -25,7 +25,7 @@ services:
       - ./.env
     build:
       dockerfile: ./ovpn/Dockerfile
-      context: ./ovpn
+      context: .
       args:
         OVPN_URL: "udp://${UDP_SERVER_ADDRESS}"
     container_name: openvpn-udp
@@ -49,7 +49,7 @@ services:
       - openvpn-udp
     build:
       dockerfile: ./udpraw/Dockerfile
-      context: ./udpraw
+      context: .
     image: udp-speeder
     restart: always
     privileged: true
@@ -65,7 +65,7 @@ services:
       - udpraw
     build:
       dockerfile: ./udpraw/Dockerfile
-      context: ./udpraw
+      context: .
     image: udp-speeder
     restart: always
     expose:
