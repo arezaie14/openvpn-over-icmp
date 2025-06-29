@@ -46,7 +46,7 @@ services:
       - NET_ADMIN
       - SYS_MODULE 
     depends_on:
-      - openvpn
+      - openvpn-udp
     build:
       dockerfile: ./udpraw/Dockerfile
       context: ./udpraw
