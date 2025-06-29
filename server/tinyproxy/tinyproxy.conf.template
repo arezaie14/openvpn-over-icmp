@@ -1,4 +1,4 @@
-BasicAuth {{PROXY_USER}} {{PROXY_PASS}}
+BasicAuth ${PROXY_USER} ${PROXY_PASS}
 Port 8888
 BindSame yes
 Timeout 600
