@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  udpraw:
+    env_file:
+      - ./.env
+    depends_on:
+      - udp-speeder
+    build: .
+    expose:
+      - "4444"
+      - "4444/udp"
+    image: udp-speeder
+    restart: always
+    privileged: true
+    networks:
+      ovpn:
+        ipv4_address: ${UDP_RAW_IP}
+    sysctls:
+      - net.ipv4.conf.default.forwarding=1
+      - net.ipv4.conf.all.forwarding=1
+    command: ./udp2raw_amd64 -c -l0.0.0.0:4444 -r ${SERVER_ADDRESS}:${SERVER_PORT} --raw-mode "${SERVER_MODE}" -k "${PASSWORD}" -a
+  udp-speeder:
+    env_file:
+      - ./.env
+    build: .
+    image: udp-speeder
+    restart: always
+    ports:
+      - "${OVPN_PORT}:4444"
+      - "${OVPN_PORT}:4444/udp"
+    networks:
+      ovpn:
+        ipv4_address: ${UDP_SPEEDER_IP}
+    command: ./speederv2_amd64 -c -l0.0.0.0:4444 -r ${UDP_RAW_IP}:4444  -f20:10 -k "${PASSWORD}"
+networks:
+  ovpn:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: ${SUBNET}/16
+         gateway: ${GATEWAY}

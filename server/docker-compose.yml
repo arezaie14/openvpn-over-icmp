@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  openvpn-tcp:
+    env_file:
+      - ./.env
+    build:
+      dockerfile: ./ovpn/Dockerfile
+      context: ./ovpn
+      args:
+        OVPN_URL: "tcp://${TCP_SERVER_ADDRESS}"
+    container_name: openvpn-tcp
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "1194:1194/tcp"
+    volumes:
+      - ./openvpn-tcp-data:/etc/openvpn
+    environment:
+      - TZ=UTC
+    restart: unless-stopped
+
+  openvpn-udp:
+    env_file:
+      - ./.env
+    build:
+      dockerfile: ./ovpn/Dockerfile
+      context: ./ovpn
+      args:
+        OVPN_URL: "udp://${UDP_SERVER_ADDRESS}"
+    container_name: openvpn-udp
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./openvpn-udp-data:/etc/openvpn
+    environment:
+      - TZ=UTC
+    restart: unless-stopped
+    networks:
+      ovpn:
+        ipv4_address: ${OVPN_IP}
+  udpraw:
+    env_file:
+      - ./.env
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE 
+    depends_on:
+      - openvpn
+    build:
+      dockerfile: ./udpraw/Dockerfile
+      context: ./udpraw
+    image: udp-speeder
+    restart: always
+    privileged: true
+    network_mode: host
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_PORT}:${SERVER_PORT}/udp"
+    command: ./udp2raw_amd64 -s -l 0.0.0.0:${SERVER_PORT} -r ${UDP_SPEEDER_IP}:4444 --raw-mode "${SERVER_MODE}" -k "${PASSWORD}" -a
+  udp-speeder:
+    env_file:
+      - ./.env
+    depends_on:
+      - udpraw
+    build:
+      dockerfile: ./udpraw/Dockerfile
+      context: ./udpraw
+    image: udp-speeder
+    restart: always
+    expose:
+      - "4444"
+      - "4444/udp"
+    networks:
+      ovpn:
+        ipv4_address: ${UDP_SPEEDER_IP}
+    command: ./speederv2_amd64 -s -l 0.0.0.0:4444 -r ${OVPN_IP}:1194  -f20:10 -k "${PASSWORD}"
