@@ -75,3 +75,10 @@ services:
       ovpn:
         ipv4_address: ${UDP_SPEEDER_IP}
     command: ./speederv2_amd64 -s -l 0.0.0.0:4444 -r ${OVPN_IP}:1194  -f20:10 -k "${PASSWORD}"
+networks:
+  ovpn:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: ${SUBNET}/16
+         gateway: ${GATEWAY}
