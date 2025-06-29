@@ -5,7 +5,6 @@ services:
     env_file:
       - ./.env
     build:
-      dockerfile: ./ovpn/Dockerfile
       context: ./ovpn/
       args:
         OVPN_URL: "tcp://${TCP_SERVER_ADDRESS}"
@@ -24,7 +23,6 @@ services:
     env_file:
       - ./.env
     build:
-      dockerfile: ./ovpn/Dockerfile
       context: ./ovpn/
       args:
         OVPN_URL: "udp://${UDP_SERVER_ADDRESS}"
