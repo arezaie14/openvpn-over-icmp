@@ -7,11 +7,12 @@ services:
     image: vimagick/tinyproxy
     build:
       context: ./tinyproxy
+      args:
+        PROXY_USER: "${PROXY_USER}"
+        PROXY_PASS: "${PROXY_PASS}"
     ports:
       - "${PROXY_PORT}:8888"
-    args:
-      PROXY_USER: "${PROXY_USER}"
-      PROXY_PASS: "${PROXY_PASS}"
+
 
     restart: unless-stopped
 
