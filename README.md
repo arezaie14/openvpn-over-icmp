@@ -10,8 +10,8 @@ docker exec -it openvpn-udp bash /ovpn-add-client.sh
 ```
 Host *
     ....
-    ServerAliveInterval 60
-    ServerAliveCountMax 3
+    ServerAliveInterval 10
+    ServerAliveCountMax 2
 ```
 
 ### Do The Folowing to start reverse proxy:
