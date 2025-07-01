@@ -17,14 +17,66 @@ This project provides a Docker-based setup to deploy an OpenVPN server (TCP/UDP)
 │   │   ├── entrypoint.sh
 │   │   └── ovpn-add-client.sh
 │   ├── tinyproxy
-│   │   ├── Dockerfile
-│   │   ├── entrypoint.sh
-│   │   └── tinyproxy.conf.template
-│   └── udpraw
-│       └── Dockerfile
+│       ├── Dockerfile
+│       ├── entrypoint.sh
+│       └── tinyproxy.conf.template
 ├── README.md
 ├── run.client.sh
 └── run.server.sh
+```
+
+## 📦 Install Docker on both server and client (server with limited)
+
+If you don't have Docker installed, you can quickly install it using the official convenience script:
+
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/arezaie14/openvpn.git
+cd openvpn
+```
+
+### 2. Setup Environment Files
+
+Create `.env` files inside both `client/` and `server/` directories. Refer to the example below.
+
+### 3. Start the Server
+
+```bash
+chmod +x ./run.server.sh
+./run.server.sh
+```
+
+### 4. Start the Client ( Server with limited internet)
+
+```bash
+chmod +x ./run.client.sh
+./run.client.sh
+```
+
+## ⚙️ Environment Variables
+
+Both server and client use `.env` files. Example variables:
+
+```env
+# Common
+PROXY_PORT=8888
+OVPN_PORT=1194
+PROXY_USER=user
+PROXY_PASS=pass
+SERVER_ADDRESS=your.server.ip
+PASSWORD=123456
+
+# Server Specific
+OVPN_TCP_SERVER_ADDRESS=your.server.ip
+OVPN_UDP_SERVER_ADDRESS=your.server.ip
 ```
 
 ## 🐳 Server Components
@@ -60,65 +112,49 @@ Defined in `client/docker-compose.yml`:
 
 Each client service connects to the server via `pingtunnel`, tunneling through firewalls using ICMP with a shared secret key.
 
-## ⚙️ Environment Variables
+## 🔌 Connection Schema
 
-Both server and client use `.env` files. Example variables:
-
-```env
-# Common
-PROXY_PORT=8888
-OVPN_PORT=1194
-PROXY_USER=user
-PROXY_PASS=pass
-SERVER_ADDRESS=your.server.ip
-PASSWORD=123456
-
-# Server Specific
-OVPN_TCP_SERVER_ADDRESS=your.server.ip
-OVPN_UDP_SERVER_ADDRESS=your.server.ip
+### OpenVPN UDP Flow
+```
+[OpenVPN UDP Client]
+        │
+        ▼
+[Server Without Internet]
+        │
+        ▼
+     PingTunnel
+        │
+        ▼
+[Server With Internet]
+        │
+        ▼
+[OpenVPN UDP Server]
+        │
+        ▼
+     Internet
 ```
 
-## 📦 Install Docker
-
-If you don't have Docker installed, you can quickly install it using the official convenience script:
-
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
+### OpenVPN TCP with TinyProxy Flow
 ```
-
-Make sure your user is added to the `docker` group to avoid using `sudo`:
-
-```bash
-sudo usermod -aG docker $USER
-newgrp docker
-```
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/arezaie14/openvpn.git
-cd openvpn
-```
-
-### 2. Setup Environment Files
-
-Create `.env` files inside both `client/` and `server/` directories. Refer to the example above.
-
-### 3. Start the Server
-
-```bash
-cd server
-docker compose up -d
-```
-
-### 4. Start the Client
-
-```bash
-cd client
-docker compose up -d
+[OpenVPN TCP Client with TinyProxy Auth]
+        │
+        ▼
+[Server Without Internet]
+        │
+        ▼
+     PingTunnel
+        │
+        ▼
+[Server With Internet]
+        │
+        ▼
+     TinyProxy
+        │
+        ▼
+[OpenVPN TCP Server]
+        │
+        ▼
+     Internet
 ```
 
 ## 🛠 Scripts
