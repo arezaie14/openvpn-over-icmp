@@ -103,12 +103,10 @@ docker exec -it openvpn-tcp bash /ovpn-add-client.sh
 ```
 #### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.:
 
-```bash
 ### Add VPN Client To UDP Open Vpn Server:
-
 ```bash
 docker exec -it openvpn-udp bash /ovpn-add-client.sh
-```bash
+```
 #### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.:
 
 
