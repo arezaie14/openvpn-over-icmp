@@ -46,7 +46,7 @@ cd openvpn
 
 ### 2. Setup Environment Files
 
-Create `.env` files inside both `client/` and `server/` directories. Refer to the example below.
+Create `.env` files inside both `client/` and `server/` directories. Refer to the example below or just copy .env.example inside folders.
 
 ### 3. Start the Server
 
