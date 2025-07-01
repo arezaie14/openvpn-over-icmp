@@ -1,4 +1,5 @@
-# OpenVPN + TinyProxy + PingTunnel Setup
+# OpenVPN Over ICMP Tunnel With Pingtunnel 
+#### Make ((TCP OpenVPN + TinyProxy) or UDP OpenVPN) With PingTunnel
 
 This project provides a Docker-based setup to deploy an OpenVPN server (TCP/UDP), TinyProxy HTTP proxy, and PingTunnel to bypass restrictive networks using ICMP tunneling. It includes both server-side and client-side configurations.
 
@@ -174,7 +175,12 @@ You can modify these to suit your workflow.
 
 MIT License
 
-## 🌐 Project URL
+## Special Thanks To: 
+### [Ping Tunnel Service](https://github.com/esrrhs/pingtunnel)
+### [Vimagick Docker Image](https://hub.docker.com/r/vimagick/tinyproxy)
+### [Kylemanna OpenVpn Docker Image](https://github.com/kylemanna/docker-openvpn)
+
+## 🌐 Project URL   
 
 [https://github.com/arezaie14/openvpn](https://github.com/arezaie14/openvpn)
 
