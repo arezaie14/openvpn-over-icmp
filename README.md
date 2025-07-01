@@ -96,12 +96,21 @@ Defined in `server/docker-compose.yml`:
 - Allows tunneling TCP/UDP connections over ICMP
 - Useful for bypassing strict firewalls
 
-### Example User Command (Add VPN Client):
+### Add VPN Client To TCP Open Vpn Server:
 
 ```bash
 docker exec -it openvpn-tcp bash /ovpn-add-client.sh
+```
+#### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.:
+
+```bash
+### Add VPN Client To UDP Open Vpn Server:
+
+```bash
 docker exec -it openvpn-udp bash /ovpn-add-client.sh
 ```
+#### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.:
+
 
 ## 🖥️ Client Components
 
