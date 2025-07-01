@@ -2,14 +2,11 @@ FROM kylemanna/openvpn
 
 ARG OVPN_URL
 ENV OVPN_URL=${OVPN_URL}
-ARG OVPN_PORT
-ENV OVPN_PORT=${OVPN_PORT}
 
 COPY ./ovpn-add-client.sh /ovpn-add-client.sh
 RUN chmod +x /ovpn-add-client.sh
 RUN ovpn_genconfig -u $OVPN_URL && \
     echo -e "\n" | ovpn_initpki nopass
-RUN sed -i 's/^port .*/port $OVPN_PORT/' /etc/openvpn/openvpn.conf
 RUN mv /etc/openvpn /etc/openvpn-back
 
 COPY entrypoint.sh /entrypoint.sh

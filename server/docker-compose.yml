@@ -21,7 +21,6 @@ services:
       context: ./ovpn
       args:
         OVPN_URL: "tcp://${OVPN_TCP_SERVER_ADDRESS}"
-        OVPN_PORT: "${OVPN_PORT}"
     container_name: openvpn-tcp
     cap_add:
       - NET_ADMIN
@@ -40,7 +39,6 @@ services:
       context: ./ovpn
       args:
         OVPN_URL: "udp://${OVPN_UDP_SERVER_ADDRESS}"
-        OVPN_PORT: "${OVPN_PORT}"
     ports:
       - "${OVPN_PORT}:1194/udp"
     container_name: openvpn-udp

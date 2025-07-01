@@ -1,6 +1,7 @@
+port=${OVPN_PORT:-1194}
 new_client () {
     mkdir -p /etc/openvpn/confs
-    ovpn_getclient $client > /etc/openvpn/confs/"$client".ovpn
+    (ovpn_getclient $client | sed -E "s/^(remote[[:space:]]+[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)[[:space:]]+[0-9]+/\1 $port/" )> /etc/openvpn/confs/"$client".ovpn
 }
 
 echo "OpenVPN is already installed."
