@@ -101,13 +101,13 @@ Defined in `server/docker-compose.yml`:
 ```bash
 docker exec -it openvpn-tcp bash /ovpn-add-client.sh
 ```
-#### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.:
+#### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.
 
 ### Add VPN Client To UDP Open Vpn Server:
 ```bash
 docker exec -it openvpn-udp bash /ovpn-add-client.sh
 ```
-#### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.:
+#### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.updated
 
 
 ## 🖥️ Client Components
