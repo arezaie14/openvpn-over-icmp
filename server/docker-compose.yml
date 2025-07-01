@@ -12,8 +12,6 @@ services:
         PROXY_PASS: "${PROXY_PASS}"
     ports:
       - "${PROXY_PORT}:8888"
-
-
     restart: unless-stopped
 
   openvpn-tcp:
@@ -22,12 +20,12 @@ services:
     build:
       context: ./ovpn
       args:
-        OVPN_URL: "tcp://${TCP_SERVER_ADDRESS}"
+        OVPN_URL: "tcp://${OVPN_TCP_SERVER_ADDRESS}"
     container_name: openvpn-tcp
     cap_add:
       - NET_ADMIN
     ports:
-      - "1194:1194/tcp"
+      - "${OVPN_PORT}:${OVPN_PORT}/tcp"
     volumes:
       - ./openvpn-tcp-data:/etc/openvpn
     environment:
@@ -40,7 +38,9 @@ services:
     build:
       context: ./ovpn
       args:
-        OVPN_URL: "udp://${UDP_SERVER_ADDRESS}"
+        OVPN_URL: "udp://${OVPN_UDP_SERVER_ADDRESS}"
+    ports:
+      - "${OVPN_PORT}:${OVPN_PORT}/udp"
     container_name: openvpn-udp
     cap_add:
       - NET_ADMIN
@@ -49,47 +49,11 @@ services:
     environment:
       - TZ=UTC
     restart: unless-stopped
-    networks:
-      ovpn:
-        ipv4_address: ${OVPN_IP}
-  udpraw:
-    env_file:
-      - ./.env
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE 
-    depends_on:
-      - openvpn-udp
-    build:
-      context: ./udpraw
-    image: udp-speeder
-    restart: always
+
+  pingtunnel-server:
+    image: esrrhs/pingtunnel
+    container_name: pingtunnel-server
     privileged: true
     network_mode: host
-    ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
-      - "${SERVER_PORT}:${SERVER_PORT}/udp"
-    command: ./udp2raw_amd64 -s -l 0.0.0.0:${SERVER_PORT} -r ${UDP_SPEEDER_IP}:4444 --raw-mode "${SERVER_MODE}" -k "${PASSWORD}" -a
-  udp-speeder:
-    env_file:
-      - ./.env
-    depends_on:
-      - udpraw
-    build:
-      context: ./udpraw
-    image: udp-speeder
     restart: always
-    expose:
-      - "4444"
-      - "4444/udp"
-    networks:
-      ovpn:
-        ipv4_address: ${UDP_SPEEDER_IP}
-    command: ./speederv2_amd64 -s -l 0.0.0.0:4444 -r ${OVPN_IP}:1194  -f20:10 -k "${PASSWORD}"
-networks:
-  ovpn:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: ${SUBNET}/16
-         gateway: ${GATEWAY}
+    command: ["./pingtunnel", "-type", "server", "-key", "123456"]

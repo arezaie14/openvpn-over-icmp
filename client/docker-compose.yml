@@ -1,41 +1,52 @@
 version: '3.8'
 services:
-  udpraw:
+   tunnel-proxy:
     env_file:
       - ./.env
-    depends_on:
-      - udp-speeder
-    build: .
-    expose:
-      - "4444"
-      - "4444/udp"
-    image: udp-speeder
-    restart: always
-    privileged: true
-    networks:
-      ovpn:
-        ipv4_address: ${UDP_RAW_IP}
-    sysctls:
-      - net.ipv4.conf.default.forwarding=1
-      - net.ipv4.conf.all.forwarding=1
-    command: ./udp2raw_amd64 -c -l0.0.0.0:4444 -r ${SERVER_ADDRESS}:${SERVER_PORT} --raw-mode "${SERVER_MODE}" -k "${PASSWORD}" -a
-  udp-speeder:
-    env_file:
-      - ./.env
-    build: .
-    image: udp-speeder
+    image: esrrhs/pingtunnel
+    container_name: pingtunnel-proxy
     restart: always
     ports:
-      - "${OVPN_PORT}:4444"
-      - "${OVPN_PORT}:4444/udp"
-    networks:
-      ovpn:
-        ipv4_address: ${UDP_SPEEDER_IP}
-    command: ./speederv2_amd64 -c -l0.0.0.0:4444 -r ${UDP_RAW_IP}:4444  -f20:10 -k "${PASSWORD}"
-networks:
-  ovpn:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: ${SUBNET}/16
-         gateway: ${GATEWAY}
+      - "${PROXY_PORT}:${PROXY_PORT}"
+    command: [
+      "./pingtunnel",
+      "-type", "client",
+      "-l", ":${PROXY_PORT}",
+      "-s", "${SERVER_ADDRESS}",
+      "-t", "${SERVER_ADDRESS}:${PROXY_PORT}",
+      "-tcp", "1",
+      "-key", "${PASSWORD}"
+    ]
+   tunnel-openvpn:
+    env_file:
+      - ./.env
+    image: esrrhs/pingtunnel
+    container_name: pingtunnel-ovpn
+    restart: always
+    ports:
+      - "${OVPN_PORT}:${OVPN_PORT}"
+    command: [
+      "./pingtunnel",
+      "-type", "client",
+      "-l", ":${OVPN_PORT}",
+      "-s", "${SERVER_ADDRESS}",
+      "-t", "${SERVER_ADDRESS}:${OVPN_PORT}",
+      "-tcp", "1",
+      "-key", "${PASSWORD}"
+    ]
+   tunnel-openvpn-udp:
+    env_file:
+      - ./.env
+    image: esrrhs/pingtunnel
+    container_name: pingtunnel-ovpn-udp
+    restart: always
+    ports:
+      - "${OVPN_PORT}:${OVPN_PORT}/udp"
+    command: [
+      "./pingtunnel",
+      "-type", "client",
+      "-l", ":${OVPN_PORT}",
+      "-s", "${SERVER_ADDRESS}",
+      "-t", "${SERVER_ADDRESS}:${OVPN_PORT}",
+      "-key", "${PASSWORD}"
+    ]
