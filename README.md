@@ -78,6 +78,22 @@ OVPN_TCP_SERVER_ADDRESS=your.server.ip
 OVPN_UDP_SERVER_ADDRESS=your.server.ip
 ```
 
+## 📦 Install Docker
+
+If you don't have Docker installed, you can quickly install it using the official convenience script:
+
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+
+Make sure your user is added to the `docker` group to avoid using `sudo`:
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
@@ -95,14 +111,14 @@ Create `.env` files inside both `client/` and `server/` directories. Refer to th
 
 ```bash
 cd server
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 4. Start the Client
 
 ```bash
 cd client
-docker-compose up -d
+docker compose up -d
 ```
 
 ## 🛠 Scripts
