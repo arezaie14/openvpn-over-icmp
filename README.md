@@ -76,8 +76,8 @@ SERVER_ADDRESS=your.server.ip
 PASSWORD=123456
 
 # Server Specific
-OVPN_TCP_SERVER_ADDRESS=your.server.ip
-OVPN_UDP_SERVER_ADDRESS=your.server.ip
+OVPN_TCP_SERVER_ADDRESS=(ip of main server if using tiny proxy) or (ip of server with internet limitation)
+OVPN_UDP_SERVER_ADDRESS=ip of server with internet limitation
 ```
 
 ## 🐳 Server Components
