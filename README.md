@@ -1,4 +1,4 @@
-# OpenVPN Over ICMP Secure Tunnel With ICMP (PING) 
+# OpenVPN Over ICMP: Secure Tunnel With ICMP (PING) 
 #### Make ((TCP OpenVPN + TinyProxy) or UDP OpenVPN) With PingTunnel
 
 This project provides a Docker-based setup to deploy an OpenVPN server (TCP/UDP), TinyProxy HTTP proxy, and PingTunnel to bypass restrictive networks using ICMP tunneling. It includes both server-side and client-side configurations.
