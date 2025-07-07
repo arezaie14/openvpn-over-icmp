@@ -1,52 +1,36 @@
 # OpenVPN Over ICMP: Secure Tunnel With ICMP (PING) 
-#### Make ((TCP OpenVPN + TinyProxy) or UDP OpenVPN) With PingTunnel
+## 📚 Table of Contents
+- [🧭 Overview](#overview)
+- [✨ Features](#features)
+- [🧱 Requirements](#requirements)
+- [🚀 Getting Started](#getting-started)
+- [🔐 Connection Schema](#connection-shcema)
+- [📜 License](#license)
+- [👤 Author](#author)
+- 
 ## 🧭 Overview
 This project enables tunneling OpenVPN (TCP/UDP) traffic through ICMP (Ping) packets using Docker and PingTunnel. It is ideal for bypassing firewalls or networks where only ICMP is allowed. The system deploys OpenVPN and TinyProxy via Docker and establishes a secure tunnel between client and server.
 
 ## ✨ Features
 - Tunnel OpenVPN via ICMP (PingTunnel)
 - Dockerized server and client configurations
-- Supports both TCP (with TinyProxy) and UDP OpenVPN modes
+- Supports both TCP (with TinyProxy like seamless and without it) and UDP OpenVPN modes
 - Easy setup with Docker Compose scripts
 - Designed for use in restricted network environments
 
 
 
 This project provides a Docker-based setup to deploy an OpenVPN server (TCP/UDP), TinyProxy HTTP proxy, and PingTunnel to bypass restrictive networks using ICMP tunneling. It includes both server-side and client-side configurations.
-## 📚 Table of Contents
-- [Project Structure](#-project-structure)
-- [Install Docker](#-install-docker-on-both-server-and-client-server-with-limited)
-- [Getting Started](#-getting-started)
-- [Usage](#usage)
-- [Security](#security)
-- [License](#license)
-- [Author](#author)
 
+## 🧱 Requirements
 
-## 📁 Project Structure
+- Docker & Docker Compose
+- Root privileges (for tunneling and VPN)
+- Public server with ICMP allowed (for PingTunnel)
 
-```
-.
-├── client
-│   ├── .env
-│   └── docker-compose.yml
-├── server
-│   ├── docker-compose.yml
-│   ├── .env
-│   ├── ovpn
-│   │   ├── Dockerfile
-│   │   ├── entrypoint.sh
-│   │   └── ovpn-add-client.sh
-│   ├── tinyproxy
-│       ├── Dockerfile
-│       ├── entrypoint.sh
-│       └── tinyproxy.conf.template
-├── README.md
-├── run.client.sh
-└── run.server.sh
-```
+## 🚀 Getting Started
 
-## 📦 Install Docker on both server and client (server with limited)
+### 1. Install Docker on both server and client (server with limited)
 
 If you don't have Docker installed, you can quickly install it using the official convenience script:
 
@@ -54,35 +38,18 @@ If you don't have Docker installed, you can quickly install it using the officia
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
+### 2. Clone the Repository
 
 ```bash
 git clone https://github.com/arezaie14/openvpn.git
 cd openvpn
 ```
 
-### 2. Setup Environment Files
+### 3. Setup Environment Files
 
 Create `.env` files inside both `client/` and `server/` directories. Refer to the example below or just copy `.env.example` inside folders.
 
-### 3. Start the Server
-
-```bash
-chmod +x ./run.server.sh
-./run.server.sh
-```
-
-### 4. Start the Client ( Server with limited internet)
-
-```bash
-chmod +x ./run.client.sh
-./run.client.sh
-```
-
-## ⚙️ Environment Variables
+### ⚙️ Environment Variables
 
 Both server and client use `.env` files. Example variables:
 
@@ -100,45 +67,34 @@ OVPN_TCP_SERVER_ADDRESS=(ip of main server if using tiny proxy) or (ip of server
 OVPN_UDP_SERVER_ADDRESS=ip of server with internet limitation
 ```
 
-## 🐳 Server Components
+### 4. Start the Server With Internet Access
 
-Defined in `server/docker-compose.yml`:
+```bash
+chmod +x ./run.server.sh
+./run.server.sh
+```
 
-### 1. **TinyProxy**
-- Lightweight HTTP/HTTPS proxy
-- Dockerfile with custom authentication setup
+### 5. Start the Server With Limited Internet Access
 
-### 2. **OpenVPN (TCP & UDP)**
-- Configurable VPN server for TCP and UDP modes
-- Scripts included to add users
+```bash
+chmod +x ./run.client.sh
+./run.client.sh
+```
 
-### 3. **PingTunnel Server**
-- Allows tunneling TCP/UDP connections over ICMP
-- Useful for bypassing strict firewalls
+## 🪄  Usage
 
 ### Add VPN Client To TCP Open Vpn Server:
 
 ```bash
 docker exec -it openvpn-tcp bash /ovpn-add-client.sh
 ```
-#### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.
+### You can download the client configuration file from ./server/ovpn/openvpn-tcp-data/confs directory after running the above command.
 
 ### Add VPN Client To UDP Open Vpn Server:
 ```bash
 docker exec -it openvpn-udp bash /ovpn-add-client.sh
 ```
-#### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.
-
-
-## 🖥️ Client Components
-
-Defined in `client/docker-compose.yml`:
-
-- **tunnel-proxy**: ICMP tunnel to proxy server
-- **tunnel-openvpn**: ICMP tunnel to OpenVPN TCP server
-- **tunnel-openvpn-udp**: ICMP tunnel to OpenVPN UDP server
-
-Each client service connects to the server via `pingtunnel`, tunneling through firewalls using ICMP with a shared secret key.
+### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.
 
 ## 🔌 Connection Schema
 
@@ -185,31 +141,22 @@ Each client service connects to the server via `pingtunnel`, tunneling through f
      Internet
 ```
 
-## 🛠 Scripts
-
-- `run.server.sh`: Helper script to bring up the server
-- `run.client.sh`: Helper script to bring up the client
-
-You can modify these to suit your workflow.
-
-## 🧱 Requirements
-
-- Docker & Docker Compose
-- Root privileges (for tunneling and VPN)
-- Public server with ICMP allowed (for PingTunnel)
-
 ## 📜 License
 
-MIT License
+Please Visit [MIT License](https://github.com/arezaie14/openvpn-over-icmp/blob/main/LICENSE)
 
 ## Special Thanks To: 
 ### [Ping Tunnel Service](https://github.com/esrrhs/pingtunnel)
 ### [Vimagick Docker Image](https://hub.docker.com/r/vimagick/tinyproxy)
 ### [Kylemanna OpenVpn Docker Image](https://github.com/kylemanna/docker-openvpn)
 
-## 🌐 Project URL   
+## 👤 Author
 
-[https://github.com/arezaie14/openvpn](https://github.com/arezaie14/openvpn)
+**Amin Rezaie**  
+📧 Email: [arezaie14@gmail.com](mailto:arezaie14@gmail.com)  
+🔗 GitHub: [github.com/arezaie14](https://github.com/arezaie14)
+
+If you find this project useful, feel free to ⭐ star it and share it with others!
 
 ## 🤝 Contributions
 
