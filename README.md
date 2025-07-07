@@ -47,25 +47,29 @@ cd openvpn
 
 ### 3. Setup Environment Files
 
-Create `.env` files inside both `client/` and `server/` directories. Refer to the example below or just copy `.env.example` inside folders.
+Just copy `.env.example` inside folders with below command then edit both files according to your environment.
 
-### ⚙️ Environment Variables
-
-Both server and client use `.env` files. Example variables:
-
-```env
-# Common
-PROXY_PORT=8888
-OVPN_PORT=1194
-PROXY_USER=user
-PROXY_PASS=pass
-SERVER_ADDRESS=your.server.ip
-PASSWORD=123456
-
-# Server Specific
-OVPN_TCP_SERVER_ADDRESS=(ip of main server if using tiny proxy) or (ip of server with internet limitation)
-OVPN_UDP_SERVER_ADDRESS=ip of server with internet limitation
+On server with internet:
+```bash
+cd ./server
+cp ./.env.example ./.env
 ```
+On server with limited internet:
+```bash
+cd ./client
+cp ./.env.example ./.env
+```
+
+#### Environment Variables Explanation:
+- `SERVER_ADDRESS`: Ip address of server with internet access.
+- `OVPN_PORT`: Open vpn public port.
+- `PASSWORD`: Password to use when tunneling pingtunnel it can between 0-2147483647.
+- `PROXY_PORT`: TinyPorxy public port.
+- `PROXY_USER`: TinyPorxy username.
+- `PROXY_PASS`: TinyPorxy password.
+- `OVPN_TCP_SERVER_ADDRESS`: IP address to config OpenVpn in TCP mode (When using tinyproxy it can be IP of server with internet access else it can be IP of server limited internet access).
+- `OVPN_UDP_SERVER_ADDRESS`: IP address to config OpenVpn in UDP mode it's the server with limited internet access.
+
 
 ### 4. Start the Server With Internet Access
 
