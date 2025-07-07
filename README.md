@@ -4,7 +4,7 @@
 - [✨ Features](#-features)
 - [🧱 Requirements](#-requirements)
 - [🚀 Getting Started](#-getting-started)
-- [🔐 Connection Schema](#-connection-shcema)
+- [🔐 Connection Schema](#-connection-schema)
 - [📜 License](#-license)
 - [👤 Author](#-author)
 - 
