@@ -36,6 +36,7 @@ If you don't have Docker installed, you can quickly install it using the officia
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh
 sh get-docker.sh
 ```
 ### 2. Clone the Repository
