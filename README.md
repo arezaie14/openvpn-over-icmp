@@ -111,10 +111,10 @@ sequenceDiagram
         Server With Limited Access->>PingTunnel:ICMP Request;
         PingTunnel->> Server With Free Access:ICMP Request;
         Server With Free Access->>OpenVpn Server: UDP/TCP Request;
-        OpenVpn Server->>Server With Free Access:UDP/TCP Request;
-        Server With Free Access->>PingTunnel:ICMP Request;
-        PingTunnel->>Server With Limited Access:ICMP Request;
-        Server With Limited Access->>OpenVpn Client:UDP/TCP Request;
+        OpenVpn Server->>Server With Free Access:UDP/TCP Response;
+        Server With Free Access->>PingTunnel:ICMP Response;
+        PingTunnel->>Server With Limited Access:ICMP Response;
+        Server With Limited Access->>OpenVpn Client:UDP/TCP Response;
 ```
 
 ### OpenVPN TCP With TinyProxy Flow
