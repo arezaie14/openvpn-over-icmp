@@ -105,18 +105,16 @@ docker exec -it openvpn-udp bash /ovpn-add-client.sh
 
 ### OpenVPN UDP Flow
 ```mermaid
-title OpenVpn TCP/UDP Over ICMP Diagram
-
-OpenVpn Client ->Server With Limited Access:UDP/TCP Request
-Server With Limited Access->PingTunnel:ICMP Request
-PingTunnel-> Server With Free Access:ICMP Request
-Server With Free Access->OpenVpn Server: UDP/TCP Request
-
-OpenVpn Server->Server With Free Access:UDP/TCP Request
-Server With Free Access->PingTunnel:ICMP Request
-PingTunnel->Server With Limited Access:ICMP Request
-Server With Limited Access->OpenVpn Client:UDP/TCP Request
-
+sequenceDiagram
+        title OpenVpn TCP/UDP Over ICMP Diagram;
+        OpenVpn Client ->Server With Limited Access:UDP/TCP Request;
+        Server With Limited Access->PingTunnel:ICMP Request;
+        PingTunnel-> Server With Free Access:ICMP Request;
+        Server With Free Access->OpenVpn Server: UDP/TCP Request;
+        OpenVpn Server->Server With Free Access:UDP/TCP Request;
+        Server With Free Access->PingTunnel:ICMP Request;
+        PingTunnel->Server With Limited Access:ICMP Request;
+        Server With Limited Access->OpenVpn Client:UDP/TCP Request;
 ```
 
 ### OpenVPN TCP with TinyProxy Flow
