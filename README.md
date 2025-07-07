@@ -4,7 +4,7 @@
 - [✨ Features](#-features)
 - [🧱 Requirements](#-requirements)
 - [🚀 Getting Started](#-getting-started)
-- [🔐 Connection Schema](#-connection-schema)
+- [🔐 Connection Flow](#-connection-flow)
 - [📜 License](#-license)
 - [👤 Author](#-author)
 - 
@@ -101,26 +101,22 @@ docker exec -it openvpn-udp bash /ovpn-add-client.sh
 ```
 ### You can download the client configuration file from ./server/ovpn/openvpn-udp-data/confs directory after running the above command.
 
-## 🔌 Connection Schema
+## 🔌 Connection flow
 
 ### OpenVPN UDP Flow
-```
-[OpenVPN UDP Client]
-        │
-        ▼
-[Server Without Internet]
-        │
-        ▼
-     PingTunnel
-        │
-        ▼
-[Server With Internet]
-        │
-        ▼
-[OpenVPN UDP Server]
-        │
-        ▼
-     Internet
+```mermaid
+title OpenVpn TCP/UDP Over ICMP Diagram
+
+OpenVpn Client ->Server With Limited Access:UDP/TCP Request
+Server With Limited Access->PingTunnel:ICMP Request
+PingTunnel-> Server With Free Access:ICMP Request
+Server With Free Access->OpenVpn Server: UDP/TCP Request
+
+OpenVpn Server->Server With Free Access:UDP/TCP Request
+Server With Free Access->PingTunnel:ICMP Request
+PingTunnel->Server With Limited Access:ICMP Request
+Server With Limited Access->OpenVpn Client:UDP/TCP Request
+
 ```
 
 ### OpenVPN TCP with TinyProxy Flow
