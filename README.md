@@ -118,6 +118,7 @@ sequenceDiagram
 ```
 
 ### OpenVPN TCP With TinyProxy Flow
+```mermaid
 sequenceDiagram
         title OpenVpn TCP Over TinyProxy And ICMP Diagram;
         Client With OpenVpn Blocked By ISP ->>Server With Limited Access:TCP Http Proxy Request;
