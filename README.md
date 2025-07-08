@@ -7,7 +7,6 @@
 - [🔐 Connection Flow](#-connection-flow)
 - [📜 License](#-license)
 - [👤 Author](#-author)
-- 
 ## 🧭 Overview
 This project enables tunneling OpenVPN (TCP/UDP) traffic through ICMP (Ping) packets using Docker and PingTunnel. It is ideal for bypassing firewalls or networks where only ICMP is allowed. The system deploys OpenVPN and TinyProxy via Docker and establishes a secure tunnel between client and server.
 
