@@ -42,7 +42,7 @@ sh get-docker.sh
 
 ```bash
 git clone https://github.com/arezaie14/openvpn-over-icmp.git
-cd openvpn
+cd openvpn-over-icmp
 ```
 
 ### 3. Setup Environment Files
