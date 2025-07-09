@@ -41,7 +41,7 @@ sh get-docker.sh
 ### 2. Clone the Repository
 
 ```bash
-git clone [https://github.com/arezaie14/openvpn.git](https://github.com/arezaie14/openvpn-over-icmp.git)
+git clone https://github.com/arezaie14/openvpn-over-icmp.git
 cd openvpn
 ```
 
