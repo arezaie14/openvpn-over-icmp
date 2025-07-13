@@ -34,9 +34,7 @@ This project provides a Docker-based setup to deploy an OpenVPN server (TCP/UDP)
 If you don't have Docker installed, you can quickly install it using the official convenience script:
 
 ```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-chmod +x get-docker.sh
-sh get-docker.sh
+curl -fsSL https://get.docker.com | bash
 ```
 ### 2. Clone the Repository
 
